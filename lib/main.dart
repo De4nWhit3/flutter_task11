@@ -53,10 +53,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.green.shade300,
+      backgroundColor:
+          size.width <= 800 ? Colors.blue.shade300 : Colors.green.shade300,
       appBar: AppBar(
-        backgroundColor: Colors.green.shade500,
+        backgroundColor:
+            size.width <= 800 ? Colors.blue : Colors.green.shade500,
         title: Text(widget.title),
       ),
       body: Center(
@@ -64,16 +67,75 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             LayoutBuilder(builder: (context, constraints) {
-              final size = MediaQuery.of(context).size;
-
               // if we are on a SMALL screen display content in a column
-              if (size.width <= 420 && size.height <= 720) {
+              if (size.width <= 800) {
+                // Display questions and answers in column format for small screens
                 return Container(
-                  color: Colors.green.shade400,
-                  width: 200,
-                  height: 100,
-                  child: const Center(
-                    child: Text('This is a small screen'),
+                  color: Colors.blue.shade600,
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            questions[0].question,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            height: 100,
+                            width: 100,
+                            child: Image(
+                                image: AssetImage(questions[0].imageURL),
+                                alignment: Alignment.center,
+                                height: double.infinity,
+                                width: double.infinity,
+                                fit: BoxFit.fill),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AnswerWidget(
+                            answer: questions[0].answers[0],
+                            height: 50.0,
+                            width: 200.0,
+                            color: const Color.fromARGB(255, 4, 98, 175),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AnswerWidget(
+                            answer: questions[0].answers[1],
+                            height: 50.0,
+                            width: 200.0,
+                            color: const Color.fromARGB(255, 4, 98, 175),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AnswerWidget(
+                            answer: questions[0].answers[2],
+                            height: 50.0,
+                            width: 200.0,
+                            color: const Color.fromARGB(255, 4, 98, 175),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 );
               } else {
@@ -145,9 +207,21 @@ class QuestionRow extends StatelessWidget {
                       color: Colors.green.shade900),
                 )),
           ),
-          AnswerWidget(answer: question.answers[0]),
-          AnswerWidget(answer: question.answers[1]),
-          AnswerWidget(answer: question.answers[2]),
+          AnswerWidget(
+              answer: question.answers[0],
+              height: 100.0,
+              width: 150.0,
+              color: Colors.green.shade800),
+          AnswerWidget(
+              answer: question.answers[1],
+              height: 100.0,
+              width: 150.0,
+              color: Colors.green.shade800),
+          AnswerWidget(
+              answer: question.answers[2],
+              height: 100.0,
+              width: 150.0,
+              color: Colors.green.shade800),
         ],
       ),
     );
@@ -158,9 +232,15 @@ class AnswerWidget extends StatelessWidget {
   const AnswerWidget({
     super.key,
     required this.answer,
+    required this.height,
+    required this.width,
+    required this.color,
   });
 
   final String answer;
+  final double height;
+  final double width;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -168,15 +248,15 @@ class AnswerWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: Colors.green.shade800,
+          color: color,
         ),
       ),
       padding: const EdgeInsets.only(
         left: 10,
         right: 10,
       ),
-      height: 100,
-      width: 150,
+      height: height,
+      width: width,
       child: Center(
         child: Text(
           answer,
