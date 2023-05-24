@@ -76,7 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   // Display questions and answers in column format for small screens
                   return SizedBox(
                     width: double.infinity,
-                    // color: Colors.blue.shade600,
                     child: Column(
                       children: [
                         QuestionColumn(
@@ -219,7 +218,6 @@ class QuestionColumn extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.circular(20),
       ),
-      // color: Colors.red,
       width: constraints.maxWidth * 0.8,
       child: Column(
         children: [
