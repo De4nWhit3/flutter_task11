@@ -32,34 +32,46 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<Question> questions = [
     Question(
-        question: 'What does RGB refer to?',
-        category: 'IT',
-        imageURL: 'assets/rgb.png',
-        answers: ['Red/Green/Blue', 'Raid Shadow Legends', 'Ice Cream'],
-        correctAnswer: 'Red/Green/Blue'),
+      question: 'What does RGB refer to?',
+      category: 'IT',
+      imageURL: 'assets/rgb.png',
+      answers: [
+        Answer(answer: 'Red/Green/Blue', isCorrect: true),
+        Answer(answer: 'Raid Shadow Legends', isCorrect: false),
+        Answer(answer: 'Ice Cream', isCorrect: false),
+      ],
+    ),
     Question(
-        question: 'What device is this?',
-        category: 'IT',
-        imageURL: 'assets/printer.jpg',
-        answers: ['First Telephone', 'Fax Machine', '3D Printer'],
-        correctAnswer: '3D Printer'),
+      question: 'What device is this?',
+      category: 'IT',
+      imageURL: 'assets/printer.jpg',
+      answers: [
+        Answer(answer: 'First Telephone', isCorrect: false),
+        Answer(answer: 'Fax Machine', isCorrect: false),
+        Answer(answer: '3D Printer', isCorrect: true),
+      ],
+    ),
     Question(
-        question: 'How much liter of water should an adult female drink daily?',
-        category: 'IT',
-        imageURL: 'assets/water.jpg',
-        answers: ['2.8L', '4L', '1L'],
-        correctAnswer: '2.8L'),
+      question: 'How much liter of water should an adult female drink daily?',
+      category: 'IT',
+      imageURL: 'assets/water.jpg',
+      answers: [
+        Answer(answer: '2.8L', isCorrect: true),
+        Answer(answer: '4L', isCorrect: false),
+        Answer(answer: '1L', isCorrect: true),
+      ],
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final bool widthLessThan800 = size.width <= 800;
     return Scaffold(
       backgroundColor:
-          size.width <= 800 ? Colors.blue.shade300 : Colors.green.shade300,
+          widthLessThan800 ? Colors.blue.shade300 : Colors.green.shade300,
       appBar: AppBar(
-        backgroundColor:
-            size.width <= 800 ? Colors.blue : Colors.green.shade500,
+        backgroundColor: widthLessThan800 ? Colors.blue : Colors.green.shade500,
         title: Text(widget.title),
       ),
       body: SingleChildScrollView(
@@ -72,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               LayoutBuilder(builder: (context, constraints) {
                 // if we are on a SMALL screen display content in a column
-                if (size.width <= 800) {
+                if (widthLessThan800) {
                   // Display questions and answers in column format for small screens
                   return SizedBox(
                     width: double.infinity,
@@ -253,7 +265,7 @@ class QuestionColumn extends StatelessWidget {
             height: 10,
           ),
           AnswerWidget(
-            answer: question.answers[0],
+            answer: question.answers[0].answer,
             height: 50.0,
             width: 200.0,
             color: const Color.fromARGB(255, 4, 98, 175),
@@ -262,7 +274,7 @@ class QuestionColumn extends StatelessWidget {
             height: 10,
           ),
           AnswerWidget(
-            answer: question.answers[1],
+            answer: question.answers[1].answer,
             height: 50.0,
             width: 200.0,
             color: const Color.fromARGB(255, 4, 98, 175),
@@ -271,7 +283,7 @@ class QuestionColumn extends StatelessWidget {
             height: 10,
           ),
           AnswerWidget(
-            answer: question.answers[2],
+            answer: question.answers[2].answer,
             height: 50.0,
             width: 200.0,
             color: const Color.fromARGB(255, 4, 98, 175),
@@ -331,17 +343,17 @@ class QuestionRow extends StatelessWidget {
                 )),
           ),
           AnswerWidget(
-              answer: question.answers[0],
+              answer: question.answers[0].answer,
               height: 100.0,
               width: 150.0,
               color: Colors.green.shade800),
           AnswerWidget(
-              answer: question.answers[1],
+              answer: question.answers[1].answer,
               height: 100.0,
               width: 150.0,
               color: Colors.green.shade800),
           AnswerWidget(
-              answer: question.answers[2],
+              answer: question.answers[2].answer,
               height: 100.0,
               width: 150.0,
               color: Colors.green.shade800),
@@ -394,13 +406,22 @@ class Question {
   String question;
   String category;
   String imageURL;
-  List<String> answers;
-  String correctAnswer;
+  List<Answer> answers;
 
-  Question(
-      {required this.question,
-      required this.category,
-      required this.imageURL,
-      required this.answers,
-      required this.correctAnswer});
+  Question({
+    required this.question,
+    required this.category,
+    required this.imageURL,
+    required this.answers,
+  });
+}
+
+class Answer {
+  final String answer;
+  final bool isCorrect;
+
+  Answer({
+    required this.answer,
+    required this.isCorrect,
+  });
 }
