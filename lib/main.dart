@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       answers: [
         Answer(answer: '2.8L', isCorrect: true),
         Answer(answer: '4L', isCorrect: false),
-        Answer(answer: '1L', isCorrect: true),
+        Answer(answer: '1L', isCorrect: false),
       ],
     ),
   ];
